@@ -23,10 +23,10 @@ export default function FoodBanner({
 }: FoodBannerProps) {
   return (
     <div
-      className='flex items-center justify-start gap-8 rounded-xl px-5 pt-1 overflow-hidden'
+      className='flex flex-col md:flex-row items-center justify-start gap-0 md:gap-8 rounded-xl px-5 pt-2 overflow-hidden'
       style={{ backgroundColor: cardBgColor }}>
-      <Image src={imageSrc} alt={heading} width={290} height={188} />
-      <div className='flex flex-col items-start justify-between h-full py-5'>
+      <Image src={imageSrc} alt={heading} width={450} height={450} className='hidden md:block' />
+      <div className='flex flex-row md:flex-col items-start justify-between h-full w-full py-2 md:py-5'>
         <div className='flex flex-col items-start gap-2'>
           <h3 className='text-xl tracking-[0.1px] font-semibold' style={{ color: headingColor }}>
             {heading}
@@ -41,6 +41,7 @@ export default function FoodBanner({
           {category}
         </p>
       </div>
+      <Image src={imageSrc} alt={heading} width={300} height={300} className='block md:hidden' />
     </div>
   )
 }
