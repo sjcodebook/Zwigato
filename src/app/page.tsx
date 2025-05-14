@@ -126,7 +126,7 @@ export default function Home() {
             />
           ))}
         </div>
-        <div className='mt-10 grid grid-cols-3 gap-3 mb-6 md:flex md:gap-4 md:overflow-x-auto md:pb-6 md:mb-10'>
+        <div className='mt-10 grid grid-cols-3 gap-3 mb-10 md:flex md:gap-4 md:overflow-x-auto md:pb-6 md:mb-5'>
           {categoriesData.map((category, index) => (
             <CategoryBtn
               key={index}
