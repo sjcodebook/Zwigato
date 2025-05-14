@@ -3,21 +3,22 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+// Removed unused Button import
+// import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
     <div className='min-h-screen bg-white'>
       {/* Header */}
-      <header className='py-4 px-5 flex items-center justify-between border-b'>
+      <header className='py-3 px-4 md:py-3 md:px-10 flex items-center justify-between border-b'>
         {/* Logo */}
         <div className='flex items-center gap-1'>
-          <span className='text-base font-bold text-neutral-800'>Food</span>
-          <span className='text-base font-medium text-[#4263EB]'>delivery</span>
+          <span className='text-lg font-bold text-neutral-800'>Food</span>
+          <span className='text-lg font-medium text-[#4263EB]'>delivery</span>
         </div>
 
         {/* Mobile Header Items */}
-        <div className='flex items-center gap-2 md:hidden'>
+        <div className='flex items-center gap-3 md:hidden'>
           {/* Cart Icon */}
           <div className='relative'>
             <button className='p-2 bg-[#EEF1FF] rounded-full'>
@@ -28,26 +29,30 @@ export default function Home() {
                 xmlns='http://www.w3.org/2000/svg'>
                 <path d='M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z' />
               </svg>
-              <span className='absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center text-xs text-white bg-[#4263EB] rounded-full'>
+              <span className='absolute -top-0.5 -right-0.5 h-4 w-4 flex items-center justify-center text-[10px] text-white bg-[#4263EB] rounded-full'>
                 1
               </span>
             </button>
           </div>
 
           {/* Profile Image */}
-          <div className='h-9 w-9 rounded-full overflow-hidden'>
+          <div className='h-8 w-8 rounded-full overflow-hidden'>
             <Image
               src='/profile-placeholder.jpg'
               alt='User profile'
-              width={36}
-              height={36}
+              width={32}
+              height={32}
               className='object-cover'
             />
           </div>
 
           {/* Mobile Menu Button */}
-          <button className='ml-1 p-2 rounded-full bg-gray-100'>
-            <svg className='h-5 w-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <button className='p-2 rounded-full bg-gray-100'>
+            <svg
+              className='h-5 w-5 text-gray-600'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -58,7 +63,7 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Desktop Search Bar & Navigation - Hidden on Mobile */}
+        {/* Desktop Search Bar */}
         <div className='hidden md:flex relative max-w-md w-full'>
           <Input
             type='text'
@@ -82,9 +87,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Navigation */}
+        {/* Desktop Navigation */}
         <div className='hidden md:flex items-center'>
-          <nav className='hidden md:flex items-center mr-8'>
+          <nav className='flex items-center mr-8'>
             <Link href='#' className='text-neutral-800 hover:text-neutral-900 px-4'>
               Restaurants
             </Link>
@@ -96,7 +101,7 @@ export default function Home() {
             </Link>
           </nav>
 
-          {/* Cart Icon */}
+          {/* Desktop Cart Icon */}
           <div className='relative mr-4'>
             <button className='p-2 bg-gray-50 rounded-full'>
               <svg
@@ -112,7 +117,7 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Profile Image */}
+          {/* Desktop Profile Image */}
           <div className='h-10 w-10 rounded-full overflow-hidden'>
             <Image
               src='/profile-placeholder.jpg'
@@ -126,40 +131,36 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className='py-5 px-5 md:py-8 md:px-10'>
+      <main className='py-6 px-4 md:py-8 md:px-10'>
         {/* Promotional Banners */}
-        <div className='flex flex-col gap-4 mb-8 md:grid md:grid-cols-2 md:gap-5 md:mb-10'>
+        <div className='flex flex-col gap-4 mb-6 md:grid md:grid-cols-2 md:gap-5 md:mb-10'>
           {/* Desserts Promotion */}
-          <div className='flex items-center justify-between bg-[#F3F4FF] rounded-lg p-5 overflow-hidden'>
-            <div>
+          <div className='flex items-center justify-between bg-[#F3F4FF] rounded-xl p-4 md:p-6 relative overflow-hidden'>
+            <div className='z-10'>
               <h3 className='text-base text-neutral-800 font-medium'>All deserts</h3>
-              <p className='text-3xl font-bold text-[#4263EB] mt-1'>20% OFF</p>
-              <p className='text-gray-500 text-xs mt-2 text-right absolute top-5 right-5'>
-                Deserty
-              </p>
+              <p className='text-3xl md:text-4xl font-bold text-[#4263EB] mt-1'>20% OFF</p>
             </div>
-            <div className='relative h-24 w-24 md:h-32 md:w-32'>
+            <p className='absolute top-4 right-4 text-gray-500 text-xs md:text-sm z-10'>Deserty</p>
+            <div className='relative h-24 w-24 md:h-32 md:w-32 -mr-4 md:-mr-0'>
               <Image src='/cupcake.png' alt='Dessert' fill className='object-contain' />
             </div>
           </div>
 
           {/* Burgers Promotion */}
-          <div className='flex items-center justify-between bg-[#FFF8F0] rounded-lg p-5 overflow-hidden'>
-            <div>
+          <div className='flex items-center justify-between bg-[#FFF8F0] rounded-xl p-4 md:p-6 relative overflow-hidden'>
+            <div className='z-10'>
               <h3 className='text-base text-neutral-800 font-medium'>Big Burgers</h3>
-              <p className='text-3xl font-bold text-[#FD6D22] mt-1'>50% OFF</p>
-              <p className='text-gray-500 text-xs mt-2 text-right absolute top-5 right-5'>
-                Foodies
-              </p>
+              <p className='text-3xl md:text-4xl font-bold text-[#FD6D22] mt-1'>50% OFF</p>
             </div>
-            <div className='relative h-24 w-24 md:h-32 md:w-32'>
+            <p className='absolute top-4 right-4 text-gray-500 text-xs md:text-sm z-10'>Foodies</p>
+            <div className='relative h-24 w-24 md:h-32 md:w-32 -mr-4 md:-mr-0'>
               <Image src='/burger.png' alt='Burger' fill className='object-contain' />
             </div>
           </div>
         </div>
 
         {/* Food Categories */}
-        <div className='grid grid-cols-3 gap-3 mb-8 md:flex md:gap-4 md:overflow-x-auto md:pb-6 md:mb-10'>
+        <div className='grid grid-cols-3 gap-3 mb-6 md:flex md:gap-4 md:overflow-x-auto md:pb-6 md:mb-10'>
           <CategoryBtn icon='🍕' label='Pizza' active={false} />
           <CategoryBtn icon='🍔' label='Burger' active={true} />
           <CategoryBtn icon='🍖' label='BBQ' active={false} />
@@ -216,8 +217,8 @@ export default function Home() {
 function CategoryBtn({ icon, label, active = false }) {
   return (
     <button
-      className={`flex flex-col items-center justify-center py-3 px-2 border rounded-lg transition-colors ${
-        active ? 'bg-blue-50 border-[#4263EB]' : 'border-gray-200'
+      className={`flex flex-col items-center justify-center w-full py-3 px-2 border rounded-lg transition-colors ${
+        active ? 'bg-[#EEF1FF] border-[#4263EB]' : 'border-gray-200 bg-white hover:bg-gray-50'
       }`}>
       <span className='text-xl mb-1 md:text-2xl'>{icon}</span>
       <span
@@ -241,25 +242,25 @@ function RestaurantCard({
   hasItems = false,
 }) {
   return (
-    <div className='rounded-lg overflow-hidden shadow-sm border border-gray-100'>
-      <div className='relative h-40 md:h-48'>
+    <div className='rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-white'>
+      <div className='relative h-36 md:h-48'>
         <Image src={image} alt={name} fill className='object-cover' />
         {featured && (
-          <span className='absolute top-3 right-3 md:top-4 md:left-4 bg-[#4263EB] text-xs font-medium text-white px-2 py-1 rounded'>
+          <span className='absolute top-3 right-3 bg-[#4263EB] text-[10px] font-medium text-white px-2 py-0.5 rounded'>
             FEATURED
           </span>
         )}
       </div>
       <div className='p-3 md:p-4'>
-        <div className='flex items-center justify-between mb-2'>
-          <h3 className='font-medium text-neutral-800 text-base'>{name}</h3>
+        <div className='flex items-center justify-between mb-1.5 md:mb-2'>
+          <h3 className='font-semibold text-neutral-800 text-sm md:text-base'>{name}</h3>
           <button className='text-gray-400'>
             {hasItems ? (
               <div className='relative'>
                 <svg className='h-5 w-5 text-[#4263EB]' fill='currentColor' viewBox='0 0 20 20'>
                   <path d='M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z' />
                 </svg>
-                <span className='absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center text-xs text-white bg-[#4263EB] rounded-full'>
+                <span className='absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center text-[10px] text-white bg-[#4263EB] rounded-full'>
                   2
                 </span>
               </div>
@@ -279,7 +280,7 @@ function RestaurantCard({
         <div className='flex items-center gap-2 text-gray-500 text-xs md:text-sm mb-2 md:mb-3'>
           <span className='flex items-center'>
             <svg
-              className='h-3 w-3 mr-1 md:h-4 md:w-4'
+              className='h-3.5 w-3.5 mr-1 md:h-4 md:w-4'
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'>
@@ -292,18 +293,18 @@ function RestaurantCard({
             </svg>
             {timeRange} min
           </span>
-          <span className='w-1 h-1 bg-gray-400 rounded-full'></span>
+          <span className='w-0.5 h-0.5 md:w-1 md:h-1 bg-gray-400 rounded-full'></span>
           <span>{priceRange} min sum</span>
         </div>
 
-        <div className='flex flex-wrap gap-1 md:gap-2'>
+        <div className='flex flex-wrap gap-1.5 md:gap-2'>
           {categories.map((category, index) => (
             <span
               key={index}
-              className='flex items-center px-2 py-0.5 bg-gray-100 rounded-md text-xs text-gray-700'>
-              {category === 'Sushi' && <span className='mr-1'>🍣</span>}
-              {category === 'Burger' && <span className='mr-1'>🍔</span>}
-              {category === 'Pizza' && <span className='mr-1'>🍕</span>}
+              className='flex items-center px-2 py-1 bg-gray-100 rounded-md text-[10px] md:text-xs text-gray-700'>
+              {category === 'Sushi' && <span className='mr-1 text-sm'>🍣</span>}
+              {category === 'Burger' && <span className='mr-1 text-sm'>🍔</span>}
+              {category === 'Pizza' && <span className='mr-1 text-sm'>🍕</span>}
               {category}
             </span>
           ))}

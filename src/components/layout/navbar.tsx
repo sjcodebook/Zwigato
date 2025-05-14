@@ -16,6 +16,8 @@ export default function Navbar() {
   const excludeRoutes = ['/login', '/register']
   const isExcludedRoute = excludeRoutes.some((route) => pathname.startsWith(route))
 
+  return null
+
   if (isExcludedRoute) {
     return null
   }
