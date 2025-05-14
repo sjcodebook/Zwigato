@@ -5,7 +5,7 @@ interface RestaurantCardProps {
   name: string
   image: string
   timeRange: string
-  priceRange: string
+  priceRange: number
   categories: string[]
   featured?: boolean
   hasItems?: boolean
