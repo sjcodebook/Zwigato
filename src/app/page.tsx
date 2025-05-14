@@ -23,6 +23,39 @@ const foodBannerData = [
   },
 ]
 
+const categoriesData = [
+  {
+    icon: '🍕',
+    label: 'Pizza',
+    active: false,
+  },
+  {
+    icon: '🍔',
+    label: 'Burger',
+    active: true,
+  },
+  {
+    icon: '🍖',
+    label: 'BBQ',
+    active: false,
+  },
+  {
+    icon: '🍣',
+    label: 'Sushi',
+    active: true,
+  },
+  {
+    icon: '🥦',
+    label: 'Vegan',
+    active: false,
+  },
+  {
+    icon: '🧁',
+    label: 'Desserts',
+    active: false,
+  },
+]
+
 export default function Home() {
   return (
     <div className='min-h-screen w-full max-w-7xl mx-auto bg-white'>
@@ -42,17 +75,18 @@ export default function Home() {
             />
           ))}
         </div>
-
-        {/* <div className='grid grid-cols-3 gap-3 mb-6 md:flex md:gap-4 md:overflow-x-auto md:pb-6 md:mb-10'>
-          <CategoryBtn icon='🍕' label='Pizza' active={false} />
-          <CategoryBtn icon='🍔' label='Burger' active={true} />
-          <CategoryBtn icon='🍖' label='BBQ' active={false} />
-          <CategoryBtn icon='🍣' label='Sushi' active={false} />
-          <CategoryBtn icon='🥦' label='Vegan' active={false} />
-          <CategoryBtn icon='🧁' label='Desserts' active={false} />
+        <div className='mt-10 grid grid-cols-3 gap-3 mb-6 md:flex md:gap-4 md:overflow-x-auto md:pb-6 md:mb-10'>
+          {categoriesData.map((category, index) => (
+            <CategoryBtn
+              key={index}
+              icon={category.icon}
+              label={category.label}
+              active={category.active}
+            />
+          ))}
         </div>
 
-        <section>
+        {/* <section>
           <h2 className='text-lg font-semibold text-neutral-800 mb-4 md:text-xl md:mb-6'>
             Nearby restaurants
           </h2>

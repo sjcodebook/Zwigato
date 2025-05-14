@@ -1,14 +1,45 @@
-export default function CategoryBtn({ icon, label, active = false }) {
+'use client'
+
+import { cn } from '@/lib/utils'
+
+const activeBgColor = '#F3F4FF'
+const activeBorderColor = '#4E60FF'
+const activeTextColor = '#4E60FF'
+
+const inactiveBgColor = '#FFFFFF'
+const inactiveBorderColor = '#EDEEF2'
+const inactiveTextColor = '#545563'
+
+interface CategoryBtnProps {
+  icon: React.ReactNode
+  label: string
+  active?: boolean
+  onClick?: () => void
+}
+
+export default function CategoryBtn({
+  icon,
+  label,
+  active = false,
+  onClick = () => {},
+}: CategoryBtnProps) {
   return (
     <button
-      className={`flex flex-col items-center justify-center w-full py-3 px-2 border rounded-lg transition-colors ${
-        active ? 'bg-[#EEF1FF] border-[#4263EB]' : 'border-gray-200 bg-white hover:bg-gray-50'
-      }`}>
+      onClick={onClick}
+      className={cn(
+        'flex flex-col items-center justify-center w-full py-3 px-2 border rounded-lg transition-colors',
+        !active && 'hover:bg-gray-50'
+      )}
+      style={{
+        backgroundColor: active ? activeBgColor : inactiveBgColor,
+        borderColor: active ? activeBorderColor : inactiveBorderColor,
+      }}>
       <span className='text-xl mb-1 md:text-2xl'>{icon}</span>
       <span
-        className={`text-xs md:text-sm ${
-          active ? 'text-[#4263EB] font-medium' : 'text-neutral-700'
-        }`}>
+        className={'text-xs md:text-sm font-bold'}
+        style={{
+          color: active ? activeTextColor : inactiveTextColor,
+        }}>
         {label}
       </span>
     </button>
