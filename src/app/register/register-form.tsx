@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 
-export default function LoginForm() {
+export default function RegisterForm() {
   return (
     <div className='flex flex-col w-full xl:w-[45%] px-10 xl:px-32 lg:px-72 md:px-55 py-8 overflow-y-scroll'>
       <div className='mb-15 md:mb-22 xl:mb-28'>
@@ -17,10 +17,10 @@ export default function LoginForm() {
         </Link>
       </div>
       <h1 className='text-[60px] leading-[82px] tracking-[0.1px] font-bold mb-4 text-[#2B2B43]'>
-        Login
+        Register
       </h1>
       <p className='text-[14px] leading-[20px] tracking-[0.1px] text-[#545563] mb-6 md:mb-8'>
-        Sign in with your data that you entered during your registration.
+        Create an account to start your journey with us. It&apos;s quick and easy!
       </p>
       <div className='space-y-5 md:space-y-7'>
         <div className='space-y-2'>
@@ -63,18 +63,13 @@ export default function LoginForm() {
           </Label>
         </div>
         <Button className='mt-2 w-full bg-[#4E60FF] text-white hover:bg-[#4050eb] transition h-12 rounded-lg font-medium text-base'>
-          Login
+          Sign Up
         </Button>
-        <div className='text-center pt-1'>
-          <Link href='#' className='text-sm leading-5 text-[#4E60FF] font-bold hover:underline'>
-            Forgot password
-          </Link>
-        </div>
       </div>
       <div className='mt-22 text-center text-sm leading-5 tracking-[0.1px] text-[#545563] pb-2'>
-        Don&apos;t have an account?{' '}
-        <Link href='/register' className='text-[#4E60FF] font-medium hover:underline'>
-          Sign up
+        Already have an account?{' '}
+        <Link href='/login' className='text-[#4E60FF] font-medium hover:underline'>
+          Login here
         </Link>
       </div>
     </div>
