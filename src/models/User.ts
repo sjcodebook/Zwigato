@@ -52,8 +52,8 @@ userSchema.pre('save', async function (next) {
   try {
     this.password = await hash(this.password, 10)
     next()
-  } catch (error: any) {
-    next(error)
+  } catch (error: unknown) {
+    next(error as Error)
   }
 })
 
