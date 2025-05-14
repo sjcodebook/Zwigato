@@ -1,103 +1,193 @@
 'use client'
 
 import { useState } from 'react'
-import { Menu, Search } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { Menu, Search, ShoppingBag, X } from 'lucide-react'
 
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
+
+const excludeRoutes = ['/login', '/register']
+
+const menuItems = [
+  { name: 'Restaurants', href: '#' },
+  { name: 'Deals', href: '#' },
+  { name: 'My orders', href: '#' },
+]
+
+const Logo = () => (
+  <div className='flex items-center'>
+    <Link href='/'>
+      <Image src='/assets/svg/logo.svg' alt='Logo' width={79} height={40} />
+    </Link>
+  </div>
+)
+
+const SearchBar = ({
+  iconPosition = 'right',
+  classes = '',
+}: {
+  iconPosition?: 'left' | 'right'
+  classes?: string
+}) => (
+  <div className={cn('relative items-center w-full', classes)}>
+    <Input
+      type='text'
+      placeholder='Search'
+      className={cn(
+        iconPosition === 'left' ? 'pl-10 pr-4' : 'pl-4 pr-10',
+        'py-2 bg-gray-100 border-transparent focus:border-transparent focus:ring-0 rounded-lg h-10 w-full text-sm placeholder-gray-500'
+      )}
+    />
+    <div
+      className={`absolute ${
+        iconPosition === 'left' ? 'left-3' : 'right-3'
+      } top-1/2 -translate-y-1/2 text-gray-400`}>
+      <Search className='h-4 w-4' />
+    </div>
+  </div>
+)
+
+const DesktopNav = () => (
+  <div className='hidden lg:flex items-center space-x-3.5 min-w-fit'>
+    <nav className='flex items-center space-x-6'>
+      {menuItems.map((item, i) => (
+        <div key={item.name} className='flex items-center'>
+          {i === menuItems.length - 1 && <div key={i} className='h-8 w-px bg-[#EDEEF2] mr-5' />}
+          <Link
+            key={item.name}
+            href={item.href}
+            className='text-sm font-bold tracking-[0.1px] text-neutral-700 hover:text-[#4E60FF]'>
+            {item.name}
+          </Link>
+        </div>
+      ))}
+    </nav>
+    <Link href='/cart'>
+      <div className='relative h-12 w-12 ml-3'>
+        <button className='p-3 bg-[#EEF1FF] rounded-xl cursor-pointer'>
+          <ShoppingBag className='h-5 w-5 text-[#4E60FF]' />
+          <span className='absolute -top-1.25 -right-0.5 h-5 w-5 flex items-center justify-center text-[10px] font-medium text-white bg-[#4E60FF] rounded-full'>
+            4
+          </span>
+        </button>
+      </div>
+    </Link>
+    <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
+      <Image
+        src='/assets/images/avatar.jpg'
+        alt='User profile'
+        width={48}
+        height={48}
+        className='object-cover rounded-xl'
+      />
+    </div>
+  </div>
+)
+
+const MobileNav = ({
+  isOpen,
+  onToggle,
+  onLinkClick,
+}: {
+  isOpen: boolean
+  onToggle: () => void
+  onLinkClick: () => void
+}) => (
+  <>
+    <div className='flex items-center gap-3 lg:hidden'>
+      <Link href='/cart'>
+        <div className='relative h-12 w-12 ml-3'>
+          <button className='p-3 bg-[#EEF1FF] rounded-lg'>
+            <ShoppingBag className='h-5 w-5 text-[#4E60FF]' />
+            <span className='absolute -top-1.25 -right-0.5 h-5 w-5 flex items-center justify-center text-[10px] font-medium text-white bg-[#4E60FF] rounded-full'>
+              4
+            </span>
+          </button>
+        </div>
+      </Link>
+      <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
+        <Image
+          src='/assets/images/avatar.jpg'
+          alt='User profile'
+          width={48}
+          height={48}
+          className='object-cover rounded-xl'
+        />
+      </div>
+      <div className='h-8 w-px bg-[#EDEEF2] mx-2 ' />
+      <button
+        className='h-12 w-12 p-2 rounded-xl bg-[#EDEEF2] hover:bg-gray-200 flex items-center justify-center'
+        onClick={onToggle}>
+        {isOpen ? (
+          <X className='h-4 w-4 text-[#83859C]' />
+        ) : (
+          <Menu className='h-4 w-4 text-[#83859C]' />
+        )}
+      </button>
+    </div>
+    <div
+      className={`
+        lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-50 border-t
+        transition-all duration-300 ease-in-out transform
+        ${
+          isOpen
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 -translate-y-2 pointer-events-none'
+        }
+      `}>
+      <div className='px-4 py-5 space-y-4'>
+        <SearchBar iconPosition='left' />
+        <nav className='flex flex-col space-y-1'>
+          {menuItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className='block px-3 py-2.5 rounded-md text-base font-medium text-neutral-700 hover:bg-gray-100 hover:text-[#4E60FF]'
+              onClick={onLinkClick}>
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </div>
+  </>
+)
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const pathname = usePathname()
-
-  const excludeRoutes = ['/login', '/register']
   const isExcludedRoute = excludeRoutes.some((route) => pathname.startsWith(route))
-
-  return null
 
   if (isExcludedRoute) {
     return null
   }
 
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false)
+  }
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
   return (
-    <header className='w-full border-b bg-white px-4 py-3 shadow-sm'>
-      <div className='mx-auto flex max-w-7xl items-center justify-between gap-4'>
-        {/* Left: Logo + Search */}
-        <div className='flex items-center gap-4'>
-          <div className='text-xl font-bold leading-none'>
-            Food <span className='text-primary'>delivery</span>
-          </div>
-
-          {/* Search bar (hidden on small screens) */}
-          <div className='hidden md:flex'>
-            <div className='relative'>
-              <Input placeholder='Search' className='pl-10 rounded-full bg-muted w-[200px]' />
-              <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
-            </div>
-          </div>
+    <header className='py-5 px-4 md:px-6 lg:px-10 border-b bg-white relative'>
+      <div className='w-full max-w-7xl mx-auto flex items-center justify-between'>
+        <div className='flex items-center gap-12 w-full'>
+          <Logo />
+          <SearchBar classes='max-w-[224px] w-full hidden lg:flex' />
         </div>
-
-        {/* Center Nav Links - Hidden on mobile */}
-        <nav className='hidden md:flex gap-6 text-sm font-medium text-muted-foreground'>
-          <a href='#' className='hover:text-primary'>
-            Restaurants
-          </a>
-          <a href='#' className='hover:text-primary'>
-            Deals
-          </a>
-          <a href='#' className='hover:text-primary'>
-            My orders
-          </a>
-        </nav>
-
-        {/* Right: Icons */}
-        <div className='flex items-center gap-4'>
-          {/* Orders Badge Icon */}
-          <div className='relative rounded-full bg-muted p-2'>
-            <svg width='20' height='20' fill='none' viewBox='0 0 24 24'>
-              <path
-                d='M7 4h10v2H7zM5 8h14v2H5zM3 12h18v2H3zM5 16h14v2H5zM7 20h10v2H7z'
-                fill='currentColor'
-              />
-            </svg>
-            <span className='absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-white'>
-              4
-            </span>
-          </div>
-
-          {/* User Avatar */}
-          <Avatar className='h-8 w-8 border border-muted'>
-            <AvatarImage src='/avatar.png' alt='User' />
-          </Avatar>
-
-          {/* Mobile Menu Icon */}
-          <Button
-            variant='ghost'
-            size='icon'
-            className='md:hidden'
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            <Menu className='h-5 w-5' />
-          </Button>
-        </div>
+        <MobileNav
+          isOpen={isMobileMenuOpen}
+          onToggle={toggleMobileMenu}
+          onLinkClick={handleLinkClick}
+        />
+        <DesktopNav />
       </div>
-
-      {/* Mobile Dropdown Menu */}
-      {isMobileMenuOpen && (
-        <div className='md:hidden mt-2 space-y-2 text-sm font-medium text-muted-foreground px-4'>
-          <a href='#' className='block hover:text-primary'>
-            Restaurants
-          </a>
-          <a href='#' className='block hover:text-primary'>
-            Deals
-          </a>
-          <a href='#' className='block hover:text-primary'>
-            My orders
-          </a>
-        </div>
-      )}
     </header>
   )
 }
