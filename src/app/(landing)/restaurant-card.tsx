@@ -1,5 +1,15 @@
 import Image from 'next/image'
 
+interface RestaurantCardProps {
+  name: string
+  image: string
+  timeRange: string
+  priceRange: string
+  categories: string[]
+  featured?: boolean
+  hasItems?: boolean
+}
+
 export default function RestaurantCard({
   name,
   image,
@@ -8,7 +18,7 @@ export default function RestaurantCard({
   categories,
   featured = false,
   hasItems = false,
-}) {
+}: RestaurantCardProps) {
   return (
     <div className='rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-white'>
       <div className='relative h-36 md:h-48'>

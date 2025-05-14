@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import RestaurantCard from '@/app/(landing)/restaurant-card'
 import CategoryBtn from '@/app/(landing)/category-btn'
 import FoodBanner from '@/app/(landing)/food-banner'
