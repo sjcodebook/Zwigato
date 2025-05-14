@@ -75,15 +75,17 @@ const DesktopNav = () => (
         </button>
       </div>
     </Link>
-    <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
-      <Image
-        src='/assets/images/avatar.jpg'
-        alt='User profile'
-        width={48}
-        height={48}
-        className='object-cover rounded-xl'
-      />
-    </div>
+    <Link href='/login'>
+      <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
+        <Image
+          src='/assets/images/avatar.jpg'
+          alt='User profile'
+          width={48}
+          height={48}
+          className='object-cover rounded-xl'
+        />
+      </div>
+    </Link>
   </div>
 )
 
@@ -108,15 +110,17 @@ const MobileNav = ({
           </button>
         </div>
       </Link>
-      <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
-        <Image
-          src='/assets/images/avatar.jpg'
-          alt='User profile'
-          width={48}
-          height={48}
-          className='object-cover rounded-xl'
-        />
-      </div>
+      <Link href='/login'>
+        <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
+          <Image
+            src='/assets/images/avatar.jpg'
+            alt='User profile'
+            width={48}
+            height={48}
+            className='object-cover rounded-xl'
+          />
+        </div>
+      </Link>
       <div className='h-8 w-px bg-[#EDEEF2] mx-2 ' />
       <button
         className='h-12 w-12 p-2 rounded-xl bg-[#EDEEF2] hover:bg-gray-200 flex items-center justify-center'
