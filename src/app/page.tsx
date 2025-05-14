@@ -59,15 +59,16 @@ const restaurantData = [
     name: 'Royal Sushi House',
     image: '/assets/images/restaurants/royal-sushi-house.png',
     timeRange: '30-40',
-    priceRange: '$32',
+    priceRange: 32,
     categories: ['Sushi'],
     featured: true,
+    hasItems: true,
   },
   {
     name: 'Burgers & Pizza',
     image: '/assets/images/restaurants/royal-sushi-house.png',
     timeRange: '40-60',
-    priceRange: '$24',
+    priceRange: 24,
     categories: ['Burger', 'Pizza'],
     featured: true,
   },
@@ -75,7 +76,7 @@ const restaurantData = [
     name: 'Ninja sushi',
     image: '/assets/images/restaurants/royal-sushi-house.png',
     timeRange: '20-40',
-    priceRange: '$40',
+    priceRange: 40,
     categories: ['Sushi'],
     featured: false,
   },
@@ -83,7 +84,7 @@ const restaurantData = [
     name: 'Ninja sushi',
     image: '/assets/images/restaurants/royal-sushi-house.png',
     timeRange: '20-40',
-    priceRange: '$40',
+    priceRange: 40,
     categories: ['Sushi'],
     featured: false,
   },
@@ -91,7 +92,7 @@ const restaurantData = [
     name: 'Ninja sushi',
     image: '/assets/images/restaurants/royal-sushi-house.png',
     timeRange: '20-40',
-    priceRange: '$40',
+    priceRange: 40,
     categories: ['Sushi'],
     featured: false,
   },
@@ -99,7 +100,7 @@ const restaurantData = [
     name: 'Ninja sushi',
     image: '/assets/images/restaurants/royal-sushi-house.png',
     timeRange: '20-40',
-    priceRange: '$40',
+    priceRange: 40,
     categories: ['Sushi'],
     featured: false,
   },
@@ -148,6 +149,7 @@ export default function Home() {
                 priceRange={restaurant.priceRange}
                 categories={restaurant.categories}
                 featured={restaurant.featured}
+                hasItems={restaurant.hasItems}
               />
             ))}
           </div>
