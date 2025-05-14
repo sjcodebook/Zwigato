@@ -56,12 +56,6 @@ export default function RegisterForm() {
             </button>
           </div>
         </div>
-        <div className='flex items-center space-x-2'>
-          <Checkbox id='remember' className='h-5 w-5 border-gray-300 rounded' />
-          <Label htmlFor='remember' className='text-sm text-gray-700'>
-            Keep me logged in
-          </Label>
-        </div>
         <Button className='mt-2 w-full bg-[#4E60FF] text-white hover:bg-[#4050eb] transition h-12 rounded-lg font-medium text-base'>
           Sign Up
         </Button>
