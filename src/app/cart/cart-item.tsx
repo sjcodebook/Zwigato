@@ -28,6 +28,7 @@ export default function CartItem({ item, handleQuantityChange, handleRemoveItem 
           width={96}
           height={96}
           className='object-cover w-full h-full'
+          sizes='(min-width: 768px) 6rem, 5rem'
         />
       </div>
       <div className='flex-grow'>
