@@ -1,5 +1,5 @@
 import { env } from '@/env'
-import { PublicError, AuthenticationError } from '@/use-cases/errors'
+import { PublicError } from '@/use-cases/errors'
 import { createServerActionProcedure } from 'zsa'
 
 // import { auth } from '@/lib/auth'
