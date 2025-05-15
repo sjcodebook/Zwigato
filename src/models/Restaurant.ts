@@ -58,6 +58,6 @@ const restaurantSchema = new Schema<IRestaurant>(
 
 const Restaurant =
   (mongoose.models.Restaurant as Model<IRestaurant>) ||
-  mongoose.model<IRestaurant>('Restaurant', restaurantSchema)
+  mongoose.model<IRestaurant>('restaurants', restaurantSchema)
 
 export default Restaurant

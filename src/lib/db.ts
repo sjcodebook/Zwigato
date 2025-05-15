@@ -2,20 +2,26 @@ import mongoose from 'mongoose'
 
 import { env } from '@/env'
 
-const MONGODB_URI = env.DATABASE_URL
+type ConnectionObject = {
+  isConnected?: number
+}
 
-let isConnected = false
+const connection: ConnectionObject = {}
 
-export const connectToDatabase = async () => {
-  if (isConnected) {
+async function dbConnect(): Promise<void> {
+  if (connection.isConnected) {
+    console.log('MongoDB is already connected')
     return
   }
+
   try {
-    const db = await mongoose.connect(MONGODB_URI)
-    isConnected = !!db.connections[0].readyState
+    const db = await mongoose.connect(env.DATABASE_URL, {})
+    connection.isConnected = db.connections[0].readyState
     console.log('MongoDB connected successfully')
   } catch (error) {
     console.error('MongoDB connection error:', error)
-    throw error
+    process.exit(1)
   }
 }
+
+export default dbConnect
