@@ -1,7 +1,5 @@
 import { connectToDatabase } from '@/lib/db'
 
-// This initializes the database connection
-// Import this at the top level of your server components or API routes
 export const initializeDatabase = async () => {
   try {
     await connectToDatabase()
