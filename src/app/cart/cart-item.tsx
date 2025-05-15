@@ -21,7 +21,7 @@ export default function CartItem({ item, handleQuantityChange, handleRemoveItem 
     <div
       key={item.id}
       className='flex items-start gap-4 p-4 border border-gray-200 rounded-lg bg-white shadow-sm'>
-      <div className='w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden '>
+      <div className='w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden'>
         <Image
           src={item.image}
           alt={item.name}
