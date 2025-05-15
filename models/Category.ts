@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose'
+import mongoose from 'mongoose'
 
 export interface ICategory extends Document {
   catId: string
@@ -6,7 +6,7 @@ export interface ICategory extends Document {
   label: string
 }
 
-const categorySchema = new Schema<ICategory>(
+const categorySchema = new mongoose.Schema<ICategory>(
   {
     catId: {
       type: String,
@@ -30,8 +30,4 @@ const categorySchema = new Schema<ICategory>(
   }
 )
 
-const Category =
-  (mongoose.models.Category as Model<ICategory>) ||
-  mongoose.model<ICategory>('categories', categorySchema)
-
-export default Category
+export default mongoose.models.categories || mongoose.model<ICategory>('categories', categorySchema)

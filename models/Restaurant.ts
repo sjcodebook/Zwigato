@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose'
+import mongoose from 'mongoose'
 
 export interface IRestaurant extends Document {
   restaurantId: string
@@ -11,7 +11,7 @@ export interface IRestaurant extends Document {
   hasItems: boolean
 }
 
-const restaurantSchema = new Schema<IRestaurant>(
+const restaurantSchema = new mongoose.Schema<IRestaurant>(
   {
     restaurantId: {
       type: String,
@@ -56,8 +56,5 @@ const restaurantSchema = new Schema<IRestaurant>(
   }
 )
 
-const Restaurant =
-  (mongoose.models.Restaurant as Model<IRestaurant>) ||
+export default mongoose.models.restaurants ||
   mongoose.model<IRestaurant>('restaurants', restaurantSchema)
-
-export default Restaurant
