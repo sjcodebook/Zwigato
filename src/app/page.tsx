@@ -1,6 +1,7 @@
 import RestaurantCard from '@/app/(landing)/restaurant-card'
 import CategoryBtn from '@/app/(landing)/category-btn'
 import FoodBanner from '@/app/(landing)/food-banner'
+import { getAllCategoriesAction } from './actions'
 
 const foodBannerData = [
   {
@@ -172,7 +173,9 @@ const restaurantData = [
   },
 ]
 
-export default function Home() {
+export default async function Home() {
+  const [data] = await getAllCategoriesAction()
+
   return (
     <div className='min-h-screen w-full max-w-7xl mx-auto bg-white'>
       <main className='py-6 md:py-8 px-4 md:px-6 xl:px-0'>
