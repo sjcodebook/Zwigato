@@ -21,14 +21,17 @@ export default function CartItem({ item, handleQuantityChange, handleRemoveItem 
     <div
       key={item.id}
       className='flex items-start gap-4 p-4 border border-gray-200 rounded-lg bg-white shadow-sm'>
-      <div className='w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden flex-shrink-0'>
+      <div className='w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden '>
         <Image
           src={item.image}
           alt={item.name}
           width={96}
           height={96}
-          className='object-cover w-full h-full'
-          sizes='(min-width: 768px) 6rem, 5rem'
+          className='w-full h-full object-cover object-center rounded-md'
+          sizes='(max-width: 768px) 96px, (max-width: 1200px) 128px, 192px'
+          placeholder='blur'
+          blurDataURL={item.image}
+          quality={100}
         />
       </div>
       <div className='flex-grow'>
