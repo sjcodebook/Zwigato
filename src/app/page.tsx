@@ -114,18 +114,23 @@ export default function Home() {
           </h2>
           <div className='flex flex-col gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 md:gap-6'>
             {restaurants?.data &&
-              restaurants.data.map((restaurant, index) => (
-                <RestaurantCard
-                  key={index}
-                  name={restaurant.name}
-                  image={restaurant.image}
-                  timeRange={restaurant.timeRange}
-                  priceRange={restaurant.priceRange}
-                  categories={restaurant.categories}
-                  featured={restaurant.featured}
-                  hasItems={restaurant.hasItems}
-                />
-              ))}
+              restaurants.data
+                .filter((res) => {
+                  if (activeCategories.length === 0) return true
+                  return res.categories.some((cat: string) => activeCategories.includes(cat))
+                })
+                .map((restaurant, index) => (
+                  <RestaurantCard
+                    key={index}
+                    name={restaurant.name}
+                    image={restaurant.image}
+                    timeRange={restaurant.timeRange}
+                    priceRange={restaurant.priceRange}
+                    categories={restaurant.categories}
+                    featured={restaurant.featured}
+                    hasItems={restaurant.hasItems}
+                  />
+                ))}
           </div>
         </section>
       </main>
