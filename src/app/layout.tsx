@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import './globals.css'
 
+import SessionProvider from '@/providers/session-provider'
 import ReactQueryProvider from '@/providers/react-query'
 import { Toaster } from '@/components/ui/sonner'
 import Navbar from '@/components/layout/navbar'
@@ -23,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang='en' className={nunito.className}>
       <body>
-        <ReactQueryProvider>
-          <Navbar />
-          {children}
-          <Toaster richColors />
-        </ReactQueryProvider>
+        <SessionProvider>
+          <ReactQueryProvider>
+            <Navbar />
+            {children}
+            <Toaster richColors />
+          </ReactQueryProvider>
+        </SessionProvider>
       </body>
     </html>
   )
