@@ -1,3 +1,5 @@
+'use server'
+
 import dbConnect from '@/lib/db'
 
 import Category from '../../models/Category'
