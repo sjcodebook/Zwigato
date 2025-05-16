@@ -3,7 +3,7 @@
  * Routes that are accessible to the public
  * @type {string[]}
  */
-export const publicRoutes: string[] = ['/']
+export const publicRoutes: string[] = ['/', '/cart']
 
 /**
  * Array of routes that are used for authentication purposes
