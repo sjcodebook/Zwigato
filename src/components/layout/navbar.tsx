@@ -80,11 +80,12 @@ const DesktopNav = () => {
           </button>
         </div>
       </Link>
-      <Link href='/login'>
-        <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
-          {session?.user ? (
-            <Avatar name={session.user.name as string} variant='beam' />
-          ) : (
+
+      <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
+        {session?.user ? (
+          <Avatar name={session.user.name as string} variant='beam' className='cursor-pointer' />
+        ) : (
+          <Link href='/login'>
             <Image
               src='/assets/images/avatar.jpg'
               alt='User profile'
@@ -92,9 +93,9 @@ const DesktopNav = () => {
               height={48}
               className='object-cover rounded-xl'
             />
-          )}
-        </div>
-      </Link>
+          </Link>
+        )}
+      </div>
     </div>
   )
 }
@@ -123,11 +124,12 @@ const MobileNav = ({
             </button>
           </div>
         </Link>
-        <Link href='/login'>
-          <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
-            {session?.user ? (
-              <Avatar name={session.user.name as string} variant='beam' />
-            ) : (
+
+        <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
+          {session?.user ? (
+            <Avatar name={session.user.name as string} variant='beam' />
+          ) : (
+            <Link href='/login'>
               <Image
                 src='/assets/images/avatar.jpg'
                 alt='User profile'
@@ -135,9 +137,10 @@ const MobileNav = ({
                 height={48}
                 className='object-cover rounded-xl'
               />
-            )}
-          </div>
-        </Link>
+            </Link>
+          )}
+        </div>
+
         <div className='h-8 w-px bg-[#EDEEF2] mx-2 ' />
         <button
           className='h-12 w-12 p-2 rounded-xl bg-[#EDEEF2] hover:bg-gray-200 flex items-center justify-center'
