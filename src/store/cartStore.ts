@@ -1,21 +1,22 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-export interface CartItem {
-  id: number
+export interface Restaurant {
+  _id: string
+  restaurantId: string
   name: string
   image: string
-  price: number
-  quantity: number
-  restaurant: string
+  timeRange: string
+  priceRange: number
+  categories: string[]
+  featured: boolean
+  hasItems: boolean
 }
 
 interface CartState {
-  items: CartItem[]
-  restaurant?: string
-  addItem: (item: CartItem) => void
-  removeItem: (id: number) => void
-  updateItemQuantity: (id: number, quantity: number) => void
+  items: Restaurant[]
+  addRestaurant: (r: Restaurant) => void
+  removeRestaurant: (id: string) => void
   clearCart: () => void
 }
 
@@ -23,45 +24,21 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
-      restaurant: undefined,
 
-      addItem: (item) => {
-        const { items, restaurant } = get()
-        // If selecting a new restaurant, reset cart
-        if (restaurant && restaurant !== item.restaurant) {
-          set({ items: [item], restaurant: item.restaurant })
-        } else {
-          const existing = items.find((i) => i.id === item.id)
-          if (existing) {
-            // Update quantity
-            set({
-              items: items.map((i) =>
-                i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
-              ),
-            })
-          } else {
-            set({
-              items: [...items, item],
-              restaurant: item.restaurant,
-            })
-          }
+      addRestaurant: (r) => {
+        const { items } = get()
+        // only add if not already in cart
+        if (!items.find((x) => x._id === r._id)) {
+          set({ items: [...items, r] })
         }
       },
 
-      removeItem: (id) => {
-        set((state) => ({ items: state.items.filter((i) => i.id !== id) }))
-      },
-
-      updateItemQuantity: (id, quantity) => {
-        set((state) => ({
-          items: state.items
-            .map((i) => (i.id === id ? { ...i, quantity } : i))
-            .filter((i) => i.quantity > 0),
-        }))
+      removeRestaurant: (id) => {
+        set((state) => ({ items: state.items.filter((x) => x._id !== id) }))
       },
 
       clearCart: () => {
-        set({ items: [], restaurant: undefined })
+        set({ items: [] })
       },
     }),
     {
