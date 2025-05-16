@@ -1,60 +1,59 @@
 import { NextResponse } from 'next/server'
-import NextAuth from 'next-auth'
-
-import authConfig from '@/lib/auth.config'
+import type { NextRequest } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 import { publicRoutes, authRoutes, apiAuthPrefix, DEFAULT_LOGIN_REDIRECT } from '@/routes'
+import { env } from '@/env'
 
-const { auth } = NextAuth(authConfig)
+export async function middleware(req: NextRequest) {
+  const { nextUrl: url } = req
+  const pathname = url.pathname
 
-export default auth((req) => {
-  const { nextUrl } = req
-
-  const isLoggedIn = !!req.auth
-
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-
+  // Determine route types
+  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix)
   const isPublicRoute = publicRoutes.some((route) => {
-    // Handle dynamic segments with any parameter name: [id], [slug], etc.
-
     if (route.includes('[')) {
-      const dynamicRouteRegex = new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`)
+      const regex = new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`)
 
-      return dynamicRouteRegex.test(nextUrl.pathname)
+      return regex.test(pathname)
     }
 
-    return nextUrl.pathname === route || nextUrl.pathname.startsWith(`${route}/`)
+    return pathname === route || pathname.startsWith(`${route}/`)
   })
-
-  // Apply the same logic to auth routes if they can have dynamic segments
-
   const isAuthRoute = authRoutes.some((route) => {
     if (route.includes('[')) {
-      const dynamicRouteRegex = new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`)
+      const regex = new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`)
 
-      return dynamicRouteRegex.test(nextUrl.pathname)
+      return regex.test(pathname)
     }
 
-    return nextUrl.pathname === route
+    return pathname === route
   })
 
+  // Retrieve JWT token
+  const token = await getToken({ req, secret: env.AUTH_SECRET })
+  const isLoggedIn = !!token
+
+  // Allow API auth routes
   if (isApiAuthRoute) {
-    return undefined
+    return NextResponse.next()
   }
 
+  // Redirect logged-in users away from login/register pages
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, url))
     }
 
-    return undefined
+    return NextResponse.next()
   }
 
+  // Protect other routes
   if (!isLoggedIn && !isPublicRoute) {
-    return NextResponse.redirect(new URL('/login', nextUrl))
+    return NextResponse.redirect(new URL('/login', url))
   }
 
-  return undefined
-})
+  return NextResponse.next()
+}
 
 export const config = {
   matcher: [
