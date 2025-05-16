@@ -4,12 +4,14 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useSession } from 'next-auth/react'
-import { Menu, Search, ShoppingBag, X } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { LogOut, Menu, Search, ShoppingBag, X } from 'lucide-react'
 import Avatar from 'boring-avatars'
 
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
 
 const excludeRoutes = ['/login', '/register']
 
@@ -83,7 +85,36 @@ const DesktopNav = () => {
 
       <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
         {session?.user ? (
-          <Avatar name={session.user.name as string} variant='beam' className='cursor-pointer' />
+          <Popover>
+            <PopoverTrigger asChild>
+              <button aria-label='User menu' className='cursor-pointer'>
+                <Avatar
+                  size={40}
+                  name={session.user.name || session.user.email || 'User'}
+                  variant='beam'
+                />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className='w-56'>
+              <div className='grid gap-4'>
+                <div className='space-y-2'>
+                  <h4 className='font-medium leading-none'>
+                    {session.user.name || 'User'}
+                  </h4>
+                  <p className='text-sm text-muted-foreground'>
+                    {session.user.email}
+                  </p>
+                </div>
+                <Button
+                  variant='outline'
+                  onClick={() => signOut()}
+                  className='w-full justify-start'>
+                  <LogOut className='mr-2 h-4 w-4' />
+                  Logout
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         ) : (
           <Link href='/login'>
             <Image
@@ -127,7 +158,36 @@ const MobileNav = ({
 
         <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
           {session?.user ? (
-            <Avatar name={session.user.name as string} variant='beam' />
+            <Popover>
+              <PopoverTrigger asChild>
+                <button aria-label='User menu' className='cursor-pointer'>
+                  <Avatar
+                    size={40}
+                    name={session.user.name || session.user.email || 'User'}
+                    variant='beam'
+                  />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className='w-56'>
+                <div className='grid gap-4'>
+                  <div className='space-y-2'>
+                    <h4 className='font-medium leading-none'>
+                      {session.user.name || 'User'}
+                    </h4>
+                    <p className='text-sm text-muted-foreground'>
+                      {session.user.email}
+                    </p>
+                  </div>
+                  <Button
+                    variant='outline'
+                    onClick={() => signOut()}
+                    className='w-full justify-start'>
+                    <LogOut className='mr-2 h-4 w-4' />
+                    Logout
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
           ) : (
             <Link href='/login'>
               <Image
