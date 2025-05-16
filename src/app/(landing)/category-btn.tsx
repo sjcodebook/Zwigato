@@ -12,22 +12,24 @@ const inactiveTextColor = '#545563'
 
 interface CategoryBtnProps {
   icon: React.ReactNode
+  catId: string
   label: string
   active?: boolean
-  onClick?: () => void
+  onClick?: (catId: string) => void
 }
 
 export default function CategoryBtn({
   icon,
+  catId,
   label,
   active = false,
   onClick = () => {},
 }: CategoryBtnProps) {
   return (
     <button
-      onClick={onClick}
+      onClick={() => onClick(catId)}
       className={cn(
-        'flex flex-col items-center justify-center w-full py-3 px-2 border rounded-lg transition-colors',
+        'flex flex-col items-center justify-center w-full py-3 px-2 border rounded-lg transition-colors cursor-pointer',
         !active && 'hover:bg-gray-50'
       )}
       style={{

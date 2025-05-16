@@ -1,12 +1,6 @@
-import mongoose from 'mongoose'
+import { InferSchemaType, Schema, model, models } from 'mongoose'
 
-export interface ICategory extends Document {
-  catId: string
-  icon: string
-  label: string
-}
-
-const categorySchema = new mongoose.Schema<ICategory>(
+const CategorySchema = new Schema(
   {
     catId: {
       type: String,
@@ -30,5 +24,8 @@ const categorySchema = new mongoose.Schema<ICategory>(
   }
 )
 
-export default mongoose?.models?.categories ||
-  mongoose?.model<ICategory>('categories', categorySchema)
+export type CategorySchemaType = InferSchemaType<typeof CategorySchema>
+
+const Category = models.categories || model<CategorySchemaType>('categories', CategorySchema)
+
+export default Category

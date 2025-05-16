@@ -6,6 +6,7 @@ import { QueryKeyFactory, useServerActionQuery } from '@/hooks/use-server-action
 import RestaurantCard from '@/app/(landing)/restaurant-card'
 import CategoryBtn from '@/app/(landing)/category-btn'
 import FoodBanner from '@/app/(landing)/food-banner'
+import LoadingSpinner from '@/components/loading-spinner'
 
 import { getAllCategoriesAction, getAllRestaurantsAction } from './actions'
 
@@ -29,24 +30,36 @@ const foodBannerData = [
 ]
 
 export default function Home() {
-  const [activeCategories, setActiveCategories] = useState([])
+  const [activeCategories, setActiveCategories] = useState<string[]>(['burger', 'sushi'])
 
-  const { isLoading: categoriesLoading, data: categories } = useServerActionQuery(
-    getAllCategoriesAction,
-    {
-      input: undefined,
-      queryKey: QueryKeyFactory.getAllCategoriesAction(),
-    }
-  )
-  const { isLoading: restaurantsLoading, data: restaurants } = useServerActionQuery(
-    getAllRestaurantsAction,
-    {
-      input: undefined,
-      queryKey: QueryKeyFactory.getAllRestaurantsAction(),
-    }
-  )
+  const {
+    isLoading: categoriesLoading,
+    data: categories,
+    error: categoriesErr,
+  } = useServerActionQuery(getAllCategoriesAction, {
+    input: undefined,
+    queryKey: QueryKeyFactory.getAllCategoriesAction(),
+  })
+  const {
+    isLoading: restaurantsLoading,
+    data: restaurants,
+    error: restaurantsErr,
+  } = useServerActionQuery(getAllRestaurantsAction, {
+    input: undefined,
+    queryKey: QueryKeyFactory.getAllRestaurantsAction(),
+  })
 
   if (categoriesLoading || restaurantsLoading) {
+    return (
+      <div className='min-h-screen w-full max-w-7xl mx-auto bg-white'>
+        <main className='py-6 md:py-8 px-4 md:px-6 xl:px-0'>
+          <LoadingSpinner />
+        </main>
+      </div>
+    )
+  }
+
+  if (restaurantsErr || categoriesErr) {
     return (
       <div className='min-h-screen w-full max-w-7xl mx-auto bg-white'>
         <main className='py-6 md:py-8 px-4 md:px-6 xl:px-0'>
@@ -77,32 +90,43 @@ export default function Home() {
           ))}
         </div>
         <div className='mt-10 grid grid-cols-3 gap-3 mb-10 md:flex md:gap-4 md:overflow-x-auto md:pb-6 md:mb-5'>
-          {categories.data.map((category, index) => (
-            <CategoryBtn
-              key={index}
-              icon={category.icon}
-              label={category.label}
-              active={category.active}
-            />
-          ))}
+          {categories?.data &&
+            categories.data.map((category, index) => (
+              <CategoryBtn
+                key={index}
+                icon={category.icon}
+                label={category.label}
+                active={activeCategories.includes(category.catId)}
+                catId={category.catId}
+                onClick={(catId) => {
+                  if (activeCategories.includes(catId)) {
+                    setActiveCategories((prev) => prev.filter((id) => id !== catId))
+                  }
+                  if (!activeCategories.includes(catId)) {
+                    setActiveCategories((prev) => [...prev, catId])
+                  }
+                }}
+              />
+            ))}
         </div>
         <section>
           <h2 className='text-lg font-semibold text-neutral-800 mb-4 md:text-xl md:mb-6'>
             Nearby restaurants
           </h2>
           <div className='flex flex-col gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 md:gap-6'>
-            {restaurants.data.map((restaurant, index) => (
-              <RestaurantCard
-                key={index}
-                name={restaurant.name}
-                image={restaurant.image}
-                timeRange={restaurant.timeRange}
-                priceRange={restaurant.priceRange}
-                categories={restaurant.categories}
-                featured={restaurant.featured}
-                hasItems={restaurant.hasItems}
-              />
-            ))}
+            {restaurants?.data &&
+              restaurants.data.map((restaurant, index) => (
+                <RestaurantCard
+                  key={index}
+                  name={restaurant.name}
+                  image={restaurant.image}
+                  timeRange={restaurant.timeRange}
+                  priceRange={restaurant.priceRange}
+                  categories={restaurant.categories}
+                  featured={restaurant.featured}
+                  hasItems={restaurant.hasItems}
+                />
+              ))}
           </div>
         </section>
       </main>

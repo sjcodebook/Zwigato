@@ -1,17 +1,6 @@
-import mongoose from 'mongoose'
+import { InferSchemaType, Schema, model, models } from 'mongoose'
 
-export interface IRestaurant extends Document {
-  restaurantId: string
-  name: string
-  image: string
-  timeRange: string
-  priceRange: number
-  categories: string[]
-  featured: boolean
-  hasItems: boolean
-}
-
-const restaurantSchema = new mongoose.Schema<IRestaurant>(
+const RestaurantSchema = new Schema(
   {
     restaurantId: {
       type: String,
@@ -56,5 +45,9 @@ const restaurantSchema = new mongoose.Schema<IRestaurant>(
   }
 )
 
-export default mongoose?.models?.restaurants ||
-  mongoose?.model<IRestaurant>('restaurants', restaurantSchema)
+export type RestaurantSchemaType = InferSchemaType<typeof RestaurantSchema>
+
+const Restaurant =
+  models.restaurants || model<RestaurantSchemaType>('restaurants', RestaurantSchema)
+
+export default Restaurant

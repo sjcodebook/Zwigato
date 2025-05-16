@@ -1,6 +1,6 @@
-export default function Loading() {
+export default function LoadingSpinner() {
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen'>
+    <div className='flex flex-col items-center justify-center'>
       <div className='animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500'></div>
       <p className='mt-4 text-lg text-blue-500 font-medium'>Loading...</p>
     </div>
