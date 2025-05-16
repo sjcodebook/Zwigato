@@ -34,12 +34,14 @@ export default function Home() {
   const { isLoading: categoriesLoading, data: categories } = useServerActionQuery(
     getAllCategoriesAction,
     {
+      input: undefined,
       queryKey: QueryKeyFactory.getAllCategoriesAction(),
     }
   )
   const { isLoading: restaurantsLoading, data: restaurants } = useServerActionQuery(
     getAllRestaurantsAction,
     {
+      input: undefined,
       queryKey: QueryKeyFactory.getAllRestaurantsAction(),
     }
   )
