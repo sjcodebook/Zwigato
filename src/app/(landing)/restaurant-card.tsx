@@ -9,6 +9,11 @@ interface RestaurantCardProps {
   categories: string[]
   featured?: boolean
   hasItems?: boolean
+  allCategories?: {
+    catId: string
+    label: string
+    icon: string
+  }[]
 }
 
 export default function RestaurantCard({
@@ -19,7 +24,9 @@ export default function RestaurantCard({
   categories,
   featured = false,
   hasItems = false,
+  allCategories,
 }: RestaurantCardProps) {
+  console.log(allCategories)
   return (
     <div className='rounded-2xl overflow-hidden bg-white shadow-md'>
       <div className='relative h-40'>
@@ -59,9 +66,9 @@ export default function RestaurantCard({
             <span
               key={index}
               className='flex items-center px-2.5 py-1.5 bg-gray-100 rounded-lg text-xs font-medium text-neutral-600'>
-              {category === 'Sushi' && <span className='mr-1.5 text-sm'>🍣</span>}
-              {category === 'Burger' && <span className='mr-1.5 text-sm'>🍔</span>}
-              {category === 'Pizza' && <span className='mr-1.5 text-sm'>🍕</span>}
+              <span className='mr-1.5 text-sm'>
+                {allCategories?.find((cat) => cat.catId === category)?.icon}
+              </span>
               {category}
             </span>
           ))}

@@ -129,6 +129,7 @@ export default function Home() {
                     categories={restaurant.categories}
                     featured={restaurant.featured}
                     hasItems={restaurant.hasItems}
+                    allCategories={categories?.data}
                   />
                 ))}
           </div>
