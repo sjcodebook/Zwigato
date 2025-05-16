@@ -101,8 +101,7 @@ export default function Home() {
                 onClick={(catId) => {
                   if (activeCategories.includes(catId)) {
                     setActiveCategories((prev) => prev.filter((id) => id !== catId))
-                  }
-                  if (!activeCategories.includes(catId)) {
+                  } else {
                     setActiveCategories((prev) => [...prev, catId])
                   }
                 }}
