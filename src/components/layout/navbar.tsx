@@ -4,7 +4,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { Menu, Search, ShoppingBag, X } from 'lucide-react'
+import Avatar from 'boring-avatars'
 
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
@@ -50,59 +52,27 @@ const SearchBar = ({
   </div>
 )
 
-const DesktopNav = () => (
-  <div className='hidden lg:flex items-center space-x-3.5 min-w-fit'>
-    <nav className='flex items-center space-x-6'>
-      {menuItems.map((item, i) => (
-        <div key={item.name} className='flex items-center'>
-          {i === menuItems.length - 1 && <div key={i} className='h-8 w-px bg-[#EDEEF2] mr-5' />}
-          <Link
-            key={item.name}
-            href={item.href}
-            className='text-sm font-bold tracking-[0.1px] text-neutral-700 hover:text-[#4E60FF]'>
-            {item.name}
-          </Link>
-        </div>
-      ))}
-    </nav>
-    <Link href='/cart'>
-      <div className='relative h-12 w-12 ml-3'>
-        <button className='p-3 bg-[#EEF1FF] rounded-xl cursor-pointer'>
-          <ShoppingBag className='h-5 w-5 text-[#4E60FF]' />
-          <span className='absolute -top-1.25 -right-0.5 h-5 w-5 flex items-center justify-center text-[10px] font-medium text-white bg-[#4E60FF] rounded-full'>
-            4
-          </span>
-        </button>
-      </div>
-    </Link>
-    <Link href='/login'>
-      <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
-        <Image
-          src='/assets/images/avatar.jpg'
-          alt='User profile'
-          width={48}
-          height={48}
-          className='object-cover rounded-xl'
-        />
-      </div>
-    </Link>
-  </div>
-)
+const DesktopNav = () => {
+  const { data: session } = useSession()
 
-const MobileNav = ({
-  isOpen,
-  onToggle,
-  onLinkClick,
-}: {
-  isOpen: boolean
-  onToggle: () => void
-  onLinkClick: () => void
-}) => (
-  <>
-    <div className='flex items-center gap-3 lg:hidden'>
+  return (
+    <div className='hidden lg:flex items-center space-x-3.5 min-w-fit'>
+      <nav className='flex items-center space-x-6'>
+        {menuItems.map((item, i) => (
+          <div key={item.name} className='flex items-center'>
+            {i === menuItems.length - 1 && <div key={i} className='h-8 w-px bg-[#EDEEF2] mr-5' />}
+            <Link
+              key={item.name}
+              href={item.href}
+              className='text-sm font-bold tracking-[0.1px] text-neutral-700 hover:text-[#4E60FF]'>
+              {item.name}
+            </Link>
+          </div>
+        ))}
+      </nav>
       <Link href='/cart'>
         <div className='relative h-12 w-12 ml-3'>
-          <button className='p-3 bg-[#EEF1FF] rounded-lg'>
+          <button className='p-3 bg-[#EEF1FF] rounded-xl cursor-pointer'>
             <ShoppingBag className='h-5 w-5 text-[#4E60FF]' />
             <span className='absolute -top-1.25 -right-0.5 h-5 w-5 flex items-center justify-center text-[10px] font-medium text-white bg-[#4E60FF] rounded-full'>
               4
@@ -112,28 +82,75 @@ const MobileNav = ({
       </Link>
       <Link href='/login'>
         <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
-          <Image
-            src='/assets/images/avatar.jpg'
-            alt='User profile'
-            width={48}
-            height={48}
-            className='object-cover rounded-xl'
-          />
+          {session?.user ? (
+            <Avatar name={session.user.name as string} variant='beam' />
+          ) : (
+            <Image
+              src='/assets/images/avatar.jpg'
+              alt='User profile'
+              width={48}
+              height={48}
+              className='object-cover rounded-xl'
+            />
+          )}
         </div>
       </Link>
-      <div className='h-8 w-px bg-[#EDEEF2] mx-2 ' />
-      <button
-        className='h-12 w-12 p-2 rounded-xl bg-[#EDEEF2] hover:bg-gray-200 flex items-center justify-center'
-        onClick={onToggle}>
-        {isOpen ? (
-          <X className='h-4 w-4 text-[#83859C]' />
-        ) : (
-          <Menu className='h-4 w-4 text-[#83859C]' />
-        )}
-      </button>
     </div>
-    <div
-      className={`
+  )
+}
+
+const MobileNav = ({
+  isOpen,
+  onToggle,
+  onLinkClick,
+}: {
+  isOpen: boolean
+  onToggle: () => void
+  onLinkClick: () => void
+}) => {
+  const { data: session } = useSession()
+
+  return (
+    <>
+      <div className='flex items-center gap-3 lg:hidden'>
+        <Link href='/cart'>
+          <div className='relative h-12 w-12 ml-3'>
+            <button className='p-3 bg-[#EEF1FF] rounded-lg'>
+              <ShoppingBag className='h-5 w-5 text-[#4E60FF]' />
+              <span className='absolute -top-1.25 -right-0.5 h-5 w-5 flex items-center justify-center text-[10px] font-medium text-white bg-[#4E60FF] rounded-full'>
+                4
+              </span>
+            </button>
+          </div>
+        </Link>
+        <Link href='/login'>
+          <div className='h-11 w-11 rounded-xl overflow-hidden border border-gray-200 p-0.25'>
+            {session?.user ? (
+              <Avatar name={session.user.name as string} variant='beam' />
+            ) : (
+              <Image
+                src='/assets/images/avatar.jpg'
+                alt='User profile'
+                width={48}
+                height={48}
+                className='object-cover rounded-xl'
+              />
+            )}
+          </div>
+        </Link>
+        <div className='h-8 w-px bg-[#EDEEF2] mx-2 ' />
+        <button
+          className='h-12 w-12 p-2 rounded-xl bg-[#EDEEF2] hover:bg-gray-200 flex items-center justify-center'
+          onClick={onToggle}>
+          {isOpen ? (
+            <X className='h-4 w-4 text-[#83859C]' />
+          ) : (
+            <Menu className='h-4 w-4 text-[#83859C]' />
+          )}
+        </button>
+      </div>
+      <div
+        className={`
         lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-50 border-t
         transition-all duration-300 ease-in-out transform
         ${
@@ -142,23 +159,24 @@ const MobileNav = ({
             : 'opacity-0 -translate-y-2 pointer-events-none'
         }
       `}>
-      <div className='px-4 py-5 space-y-4'>
-        <SearchBar iconPosition='left' />
-        <nav className='flex flex-col space-y-1'>
-          {menuItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className='block px-3 py-2.5 rounded-md text-base font-medium text-neutral-700 hover:bg-gray-100 hover:text-[#4E60FF]'
-              onClick={onLinkClick}>
-              {item.name}
-            </Link>
-          ))}
-        </nav>
+        <div className='px-4 py-5 space-y-4'>
+          <SearchBar iconPosition='left' />
+          <nav className='flex flex-col space-y-1'>
+            {menuItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className='block px-3 py-2.5 rounded-md text-base font-medium text-neutral-700 hover:bg-gray-100 hover:text-[#4E60FF]'
+                onClick={onLinkClick}>
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
-    </div>
-  </>
-)
+    </>
+  )
+}
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
