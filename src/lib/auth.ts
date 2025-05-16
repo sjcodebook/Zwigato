@@ -1,11 +1,7 @@
-import bcrypt from 'bcryptjs'
 import NextAuth, { AuthOptions, DefaultSession } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
 
 import { env } from '@/env'
-import dbConnect from '@/lib/db'
-
-import User from '../../models/User'
+import authConfig from '@/lib/auth.config'
 
 interface AuthorizedUser {
   id: string
@@ -19,42 +15,7 @@ type SessionUser = DefaultSession['user'] & {
   role: string
 }
 
-export const authOptions: AuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials): Promise<AuthorizedUser | null> {
-        if (!credentials?.email || !credentials.password) {
-          return null
-        }
-        await dbConnect()
-        const user = await User.findOne({ email: credentials.email }).select(
-          '+password +name +role'
-        )
-
-        if (!user || !user.password) {
-          return null
-        }
-
-        const isPasswordMatch = await bcrypt.compare(credentials.password, user.password)
-
-        if (!isPasswordMatch) {
-          return null
-        }
-
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        }
-      },
-    }),
-  ],
+const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
   },
@@ -82,6 +43,7 @@ export const authOptions: AuthOptions = {
     signIn: '/login',
   },
   secret: env.NEXTAUTH_SECRET,
+  ...authConfig,
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth(authOptions)
