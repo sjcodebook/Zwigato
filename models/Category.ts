@@ -26,6 +26,6 @@ const CategorySchema = new Schema(
 
 export type CategorySchemaType = InferSchemaType<typeof CategorySchema>
 
-const Category = models.categories || model<CategorySchemaType>('categories', CategorySchema)
+const Category = models?.categories || model<CategorySchemaType>('categories', CategorySchema)
 
 export default Category

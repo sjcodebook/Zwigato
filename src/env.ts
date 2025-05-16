@@ -6,13 +6,13 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(1),
     DB_NAME: z.string().min(1),
     NODE_ENV: z.string().optional(),
-    NEXTAUTH_SECRET: z.string().optional(),
+    AUTH_SECRET: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     DATABASE_URL: process.env.DATABASE_URL,
     DB_NAME: process.env.DB_NAME,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    AUTH_SECRET: process.env.AUTH_SECRET,
   },
 })

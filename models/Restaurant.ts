@@ -48,6 +48,6 @@ const RestaurantSchema = new Schema(
 export type RestaurantSchemaType = InferSchemaType<typeof RestaurantSchema>
 
 const Restaurant =
-  models.restaurants || model<RestaurantSchemaType>('restaurants', RestaurantSchema)
+  models?.restaurants || model<RestaurantSchemaType>('restaurants', RestaurantSchema)
 
 export default Restaurant

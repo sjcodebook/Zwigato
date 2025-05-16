@@ -1,28 +1,39 @@
 import { NextResponse } from 'next/server'
+import NextAuth from 'next-auth'
 
-import { auth } from '@/lib/auth'
+import authConfig from '@/lib/auth.config'
 import { publicRoutes, authRoutes, apiAuthPrefix, DEFAULT_LOGIN_REDIRECT } from '@/routes'
+
+const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
   const { nextUrl } = req
+
   const isLoggedIn = !!req.auth
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+
   const isPublicRoute = publicRoutes.some((route) => {
     // Handle dynamic segments with any parameter name: [id], [slug], etc.
+
     if (route.includes('[')) {
       const dynamicRouteRegex = new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`)
+
       return dynamicRouteRegex.test(nextUrl.pathname)
     }
+
     return nextUrl.pathname === route || nextUrl.pathname.startsWith(`${route}/`)
   })
 
   // Apply the same logic to auth routes if they can have dynamic segments
+
   const isAuthRoute = authRoutes.some((route) => {
     if (route.includes('[')) {
       const dynamicRouteRegex = new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`)
+
       return dynamicRouteRegex.test(nextUrl.pathname)
     }
+
     return nextUrl.pathname === route
   })
 
@@ -34,6 +45,7 @@ export default auth((req) => {
     if (isLoggedIn) {
       return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     }
+
     return undefined
   }
 

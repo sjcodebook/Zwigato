@@ -27,6 +27,6 @@ const UserSchema = new Schema(
 
 export type UserSchemaType = InferSchemaType<typeof UserSchema>
 
-const User = models.users || model<UserSchemaType>('users', UserSchema)
+const User = models?.users || model<UserSchemaType>('users', UserSchema)
 
 export default User

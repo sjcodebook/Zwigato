@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import Credentials from 'next-auth/providers/credentials'
+
+import type { NextAuthConfig } from 'next-auth'
 
 import User from '../../models/User'
 
@@ -13,7 +15,7 @@ interface AuthorizedUser {
 
 const authConfig = {
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
@@ -24,15 +26,13 @@ const authConfig = {
           return null
         }
         await dbConnect()
-        const user = await User.findOne({ email: credentials.email }).select(
-          '+password +name +role'
-        )
+        const user = await User.findOne({ email: credentials.email }).select('+password +name')
 
         if (!user || !user.password) {
           return null
         }
 
-        const isPasswordMatch = await bcrypt.compare(credentials.password, user.password)
+        const isPasswordMatch = await bcrypt.compare(credentials.password as string, user.password)
 
         if (!isPasswordMatch) {
           return null
@@ -46,6 +46,6 @@ const authConfig = {
       },
     }),
   ],
-}
+} satisfies NextAuthConfig
 
 export default authConfig

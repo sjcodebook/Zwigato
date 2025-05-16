@@ -1,39 +1,35 @@
-import NextAuth, { AuthOptions, DefaultSession } from 'next-auth'
+import NextAuth, { DefaultSession } from 'next-auth'
 
-import { env } from '@/env'
 import authConfig from '@/lib/auth.config'
 
 interface AuthorizedUser {
   id: string
   email: string
   name: string
-  role: string
 }
 
 type SessionUser = DefaultSession['user'] & {
   id: string
-  role: string
 }
 
-const authOptions: AuthOptions = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         const authorizedUser = user as AuthorizedUser
         token.id = authorizedUser.id
-        token.role = authorizedUser.role
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
-        if (typeof token.id === 'string' && typeof token.role === 'string') {
+        if (token.id) {
           const sessionUser = session.user as SessionUser
-          sessionUser.id = token.id
-          sessionUser.role = token.role
+          sessionUser.id = token.id as string
         }
       }
       return session
@@ -41,9 +37,8 @@ const authOptions: AuthOptions = {
   },
   pages: {
     signIn: '/login',
+    error: '/login',
   },
-  secret: env.NEXTAUTH_SECRET,
+  trustHost: true,
   ...authConfig,
-}
-
-export const { handlers, signIn, signOut, auth } = NextAuth(authOptions)
+})
