@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import './globals.css'
 
+import ReactQueryProvider from '@/providers/react-query'
+import { Toaster } from '@/components/ui/sonner'
 import Navbar from '@/components/layout/navbar'
 
 const nunito = Nunito({
@@ -21,8 +23,11 @@ export default function RootLayout({
   return (
     <html lang='en' className={nunito.className}>
       <body>
-        <Navbar />
-        {children}
+        <ReactQueryProvider>
+          <Navbar />
+          {children}
+          <Toaster richColors />
+        </ReactQueryProvider>
       </body>
     </html>
   )

@@ -1,6 +1,12 @@
+'use client'
+
+import { useState } from 'react'
+
+import { QueryKeyFactory, useServerActionQuery } from '@/hooks/use-server-action-hooks'
 import RestaurantCard from '@/app/(landing)/restaurant-card'
 import CategoryBtn from '@/app/(landing)/category-btn'
 import FoodBanner from '@/app/(landing)/food-banner'
+
 import { getAllCategoriesAction, getAllRestaurantsAction } from './actions'
 
 const foodBannerData = [
@@ -22,11 +28,23 @@ const foodBannerData = [
   },
 ]
 
-export default async function Home() {
-  const [categories] = await getAllCategoriesAction()
-  const [restaurants] = await getAllRestaurantsAction()
+export default function Home() {
+  const [activeCategories, setActiveCategories] = useState([])
 
-  if (!categories?.data || !restaurants?.data) {
+  const { isLoading: categoriesLoading, data: categories } = useServerActionQuery(
+    getAllCategoriesAction,
+    {
+      queryKey: QueryKeyFactory.getAllCategoriesAction(),
+    }
+  )
+  const { isLoading: restaurantsLoading, data: restaurants } = useServerActionQuery(
+    getAllRestaurantsAction,
+    {
+      queryKey: QueryKeyFactory.getAllRestaurantsAction(),
+    }
+  )
+
+  if (categoriesLoading || restaurantsLoading) {
     return (
       <div className='min-h-screen w-full max-w-7xl mx-auto bg-white'>
         <main className='py-6 md:py-8 px-4 md:px-6 xl:px-0'>
