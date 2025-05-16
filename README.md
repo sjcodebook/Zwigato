@@ -1,5 +1,9 @@
 # Zwigato
 
+## Project Demo Video
+[![Watch the video](https://www.loom.com/share/c062fe5605b64d76ab71e61172c4b989?sid=b9361847-d93a-4851-a296-afac8d86b030)](https://www.loom.com/share/c062fe5605b64d76ab71e61172c4b989?sid=b9361847-d93a-4851-a296-afac8d86b030)
+
+
 🍔🥗🍕 Your Ultimate Food Delivery Experience 🍕🥗🍔
 
 ## Introduction
